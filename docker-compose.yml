@@ -1,0 +1,50 @@
+services:
+  rag:
+    build:
+      context: .
+      args:
+        # CPU: оставить как есть
+        # GPU: заменить на https://download.pytorch.org/whl/cu121
+        #      + раскомментировать блок deploy ниже
+        TORCH_INDEX: https://download.pytorch.org/whl/cpu
+    container_name: rag_notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      # bind mounts — редактируются прямо на хосте
+      - ./notebooks:/workspace/notebooks
+      - ./data:/workspace/data
+      # .env только для чтения
+      - ./.env:/workspace/.env:ro
+      # named volumes — выживают при docker compose down / restart
+      - qdrant_data:/workspace/qdrant_data
+      - chroma_data:/workspace/chroma_data
+      - ollama_models:/workspace/ollama_models
+      # BGE-M3 (~570 MB) + BGE-Reranker (~1.1 GB) — скачиваются один раз
+      - hf_cache:/root/.cache/huggingface
+      # Docling модели + parse cache
+      - docling_cache:/root/.cache/docling
+      # Docling parse cache + summaries + chunks — без этого PDF парсится при каждом рестарте
+      - workspace_cache:/workspace/cache
+    restart: unless-stopped
+    # shared memory для BGE-M3 / FlagEmbedding / sentence-transformers
+    shm_size: '2gb'
+
+    # ── GPU: раскомментировать для GPU-сервера ─────────────────────────────
+    # Также изменить TORCH_INDEX выше на:
+    #   https://download.pytorch.org/whl/cu121
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+volumes:
+  qdrant_data:
+  chroma_data:
+  ollama_models:
+  hf_cache:
+  docling_cache:
+  workspace_cache:
