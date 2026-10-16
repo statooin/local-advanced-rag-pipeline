@@ -1,0 +1,40 @@
+# ── TORCH ─────────────────────────────────────────────────────────────────
+# --extra-index-url передаётся через ARG в Dockerfile (cpu по умолчанию)
+# CPU:  https://download.pytorch.org/whl/cpu   → ~200 MB
+# GPU:  https://download.pytorch.org/whl/cu121 → ~2.4 GB
+torch==2.5.1
+
+# ── JUPYTER ───────────────────────────────────────────────────────────────
+jupyterlab==4.2.5
+ipywidgets==8.1.5
+tqdm==4.66.5
+
+# ── UTILS ─────────────────────────────────────────────────────────────────
+python-dotenv==1.0.1
+httpx==0.27.2
+requests==2.32.3
+psutil==6.0.0
+
+# ── LANGCHAIN ─────────────────────────────────────────────────────────────
+langchain==0.3.7
+langchain-core==0.3.20,<0.4.0
+langchain-openai==0.2.9
+langchain-ollama==0.2.1
+langchain-community==0.3.7
+langchain-text-splitters==0.3.2
+langchain-qdrant==0.2.0
+langchain-huggingface==0.1.2
+
+# ── VECTOR STORES ─────────────────────────────────────────────────────────
+qdrant-client==1.12.1
+chromadb==0.5.23           # notebook_03: simple RAG с ChromaDB
+langchain-chroma==0.1.4    # notebook_03: LangChain обёртка для Chroma
+
+# ── EMBEDDINGS + RERANKER ─────────────────────────────────────────────────
+# sentence-transformers — CrossEncoder (BGE-Reranker-v2-m3, notebook_04)
+sentence-transformers==3.2.1
+# FlagEmbedding — BGEM3FlagModel: dense + sparse за один forward pass
+FlagEmbedding==1.3.3
+
+# ── PDF PARSING ───────────────────────────────────────────────────────────
+docling==2.5.2
