@@ -41,8 +41,8 @@ Documents (.pdf / .txt)
             │
             ▼
  ┌──────────────────────────────┐
- │  Parent-Child Chunking        │  Parent ~512 tok → LLM context
- │  + Contextual Prefix          │  Child  ~200 tok → embedded in Qdrant
+ │  Parent-Child Chunking       │  Parent ~512 tok → LLM context
+ │  + Contextual Prefix         │  Child  ~200 tok → embedded in Qdrant
  └──────────────┬───────────────┘
                 │
                 ▼
